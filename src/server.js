@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import userRoutes from './routers/userRoutes.js';
 
 const PORT = 3000;
 
@@ -26,6 +27,9 @@ export const startServer = () => {
       },
     }),
   );
+  
+  app.use('/users', userRoutes);
+
 
   app.get('/', (req, res) => {
     res.json({

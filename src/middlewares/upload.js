@@ -1,0 +1,38 @@
+import { v2 as cloudinary } from "cloudinary";
+import multer from "multer";
+import dotenv from "dotenv";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+
+dotenv.config();
+
+const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } =
+  process.env;
+
+cloudinary.config({
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    
+    let folder;
+    if (file.fieldname === "avatar") {
+      folder = "avatars";
+    } else if (file.fieldname === "documents") {
+      folder = "documents";
+    } else {
+      folder = "misc";
+    }
+    return {
+      folder: folder,
+      allowed_formats: ["jpg", "png"], 
+      public_id: file.originalname, ID
+      transformation: [{ width: 250, height: 250 }],
+    };
+  },
+});
+
+export const upload = multer({ storage });
