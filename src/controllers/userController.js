@@ -74,5 +74,17 @@ const updateSettings = async (req, res) => {
   res.status(200).json({ email, name, gender, avatarURL });
 };
 
+const logout = async (req, res) => {
+  res.clearCookie('accessToken'); 
+
+  res.status(200).json({
+    success: true,
+    message: 'Successfully logged out',
+  });
+};
+
+
+
 export const getCurrentUser = ctrlWrapper(get);
 export const updateUserSettings = ctrlWrapper(updateSettings);
+export const logoutUser = ctrlWrapper(logout);

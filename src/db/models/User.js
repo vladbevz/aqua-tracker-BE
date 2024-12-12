@@ -34,10 +34,12 @@ const userSchema = new Schema(
 
     daylyNorm: {
       type: Number,
-    },
+    }, accessToken: { 
+      type: String,
+      default: '',
+    }
   },
-
-  { versionKey: false, timestamps: true },
+  { versionKey: false, timestamps: true }
 );
 
 userSchema.methods.toJSON = function () {
