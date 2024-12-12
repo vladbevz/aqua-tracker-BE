@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import { User } from '../db/models/User.js';
+import UserCollection from '../db/models/User.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { HttpError } from '../utils/HttpError.js';
+import createHttpError from 'http-errors';
 
 const get = async (req, res) => {
   const { name, email, gender, avatarURL } = req.user;
@@ -20,13 +20,13 @@ const updateSettings = async (req, res) => {
   } else {
     const keys = Object.keys(req.body);
     if (!keys.length) {
-      throw HttpError(400, 'Body must have at least one field');
+      throw createHttpError(400, 'Body must have at least one field');
     }
   }
 
   if (outdatedPassword && newPassword) {
     if (outdatedPassword === newPassword) {
-      throw HttpError(
+      throw createHttpError(
         400,
         'The new password must be different from the old one',
       );
@@ -35,22 +35,22 @@ const updateSettings = async (req, res) => {
     const comparedPassword = await bcrypt.compare(outdatedPassword, password);
 
     if (!comparedPassword) {
-      throw HttpError(401, 'Current password is incorrect');
+      throw createHttpError(401, 'Current password is incorrect');
     }
 
     hashedNewPassword = await bcrypt.hash(newPassword, 10);
   } else if (newPassword) {
-    throw HttpError(
+    throw createHttpError(
       400,
       'To change the password, provide both outdatedPassword and newPassword',
     );
   }
 
   if (newEmail && newEmail !== currentEmail) {
-    const userWithNewEmail = await User.findOne({ email: newEmail });
+    const userWithNewEmail = await UserCollection.findOne({ email: newEmail });
 
     if (userWithNewEmail) {
-      throw HttpError(409, 'Email is already in use');
+      throw createHttpError(409, 'Email is already in use');
     }
   }
 
@@ -62,9 +62,13 @@ const updateSettings = async (req, res) => {
     updatedUserData.avatarURL = avatarURL;
   }
 
-  const updatedUser = await User.findByIdAndUpdate(_id, updatedUserData, {
-    new: true,
-  });
+  const updatedUser = await UserCollection.findByIdAndUpdate(
+    _id,
+    updatedUserData,
+    {
+      new: true,
+    },
+  );
 
   const { name = '', gender, email } = updatedUser;
   res.status(200).json({ email, name, gender, avatarURL });
