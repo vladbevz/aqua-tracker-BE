@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
-import { User } from "../models/User.js";
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
-import { HttpError } from "../utils/HttpError.js";
+import bcrypt from 'bcrypt';
+import { User } from '../models/User.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { HttpError } from '../utils/HttpError.js';
 
 const get = async (req, res) => {
   const { name, email, gender, avatarURL } = req.user;
@@ -20,7 +20,7 @@ const updateSettings = async (req, res) => {
   } else {
     const keys = Object.keys(req.body);
     if (!keys.length) {
-      throw HttpError(400, "Body must have at least one field");
+      throw HttpError(400, 'Body must have at least one field');
     }
   }
 
@@ -28,21 +28,21 @@ const updateSettings = async (req, res) => {
     if (outdatedPassword === newPassword) {
       throw HttpError(
         400,
-        "The new password must be different from the old one"
+        'The new password must be different from the old one',
       );
     }
 
     const comparedPassword = await bcrypt.compare(outdatedPassword, password);
 
     if (!comparedPassword) {
-      throw HttpError(401, "Current password is incorrect");
+      throw HttpError(401, 'Current password is incorrect');
     }
 
     hashedNewPassword = await bcrypt.hash(newPassword, 10);
   } else if (newPassword) {
     throw HttpError(
       400,
-      "To change the password, provide both outdatedPassword and newPassword"
+      'To change the password, provide both outdatedPassword and newPassword',
     );
   }
 
@@ -50,7 +50,7 @@ const updateSettings = async (req, res) => {
     const userWithNewEmail = await User.findOne({ email: newEmail });
 
     if (userWithNewEmail) {
-      throw HttpError(409, "Email is already in use");
+      throw HttpError(409, 'Email is already in use');
     }
   }
 
@@ -66,7 +66,7 @@ const updateSettings = async (req, res) => {
     new: true,
   });
 
-  const { name = "", gender, email } = updatedUser;
+  const { name = '', gender, email } = updatedUser;
   res.status(200).json({ email, name, gender, avatarURL });
 };
 
