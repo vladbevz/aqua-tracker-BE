@@ -7,7 +7,6 @@ const userSchema = new Schema(
     gender: {
       type: String,
       enum: typeList,
-      required: true,
       default: 'woman',
     },
 
@@ -29,11 +28,12 @@ const userSchema = new Schema(
 
     avatarUrl: {
       type: String,
-      default: null,
+      // default: null,
+      default: '',
     },
 
     daylyNorm: {
-      type: String,
+      type: Number,
     },
   },
 
