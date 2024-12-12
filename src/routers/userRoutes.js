@@ -4,7 +4,7 @@ import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { userInfoUpdatedSchema } from '../validation/user.js';
-import { getCurrentUser, updateUserSettings, logoutUser } from '../controllers/userController.js';
+import { getCurrentUser,  logoutUser } from '../controllers/userController.js';
 
 const userRouter = express.Router();
 
