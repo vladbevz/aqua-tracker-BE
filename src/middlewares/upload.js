@@ -1,7 +1,7 @@
-import { v2 as cloudinary } from "cloudinary";
-import multer from "multer";
-import dotenv from "dotenv";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
+import dotenv from 'dotenv';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 dotenv.config();
 
@@ -17,19 +17,18 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    
     let folder;
-    if (file.fieldname === "avatar") {
-      folder = "avatars";
-    } else if (file.fieldname === "documents") {
-      folder = "documents";
+    if (file.fieldname === 'avatar') {
+      folder = 'avatars';
+    } else if (file.fieldname === 'documents') {
+      folder = 'documents';
     } else {
-      folder = "misc";
+      folder = 'misc';
     }
     return {
       folder: folder,
-      allowed_formats: ["jpg", "png"], 
-      public_id: file.originalname, ID
+      allowed_formats: ['jpg', 'png'],
+      public_id: file.originalname,
       transformation: [{ width: 250, height: 250 }],
     };
   },
