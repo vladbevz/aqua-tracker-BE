@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { User } from '../models/User.js';
+import { User } from '../db/models/User.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { HttpError } from '../utils/HttpError.js';
 
