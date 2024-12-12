@@ -1,29 +1,63 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: Water Tracker App
+  title: Water Track App
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: This is a documentation of Water tracker app
+    url: <http://www.apache.org/licenses/LICENSE-2.0.html>
+  description: This is a documentation of AquaTrack App
 tags:
-  - name: Contacts
-    description: Operations about users
   - name: Auth
     description: Auth operations.
+  - name: Users
+    description: Users operations.
+  - name: Water
+    description: Operations to track the water the user drinks.
+  - name: Water{id}
+    description: Operations with glass.
 servers:
   - url: http://localhost:3000
   - url: https://aqua-tracker-be.onrender.com
-
-  # /auth/refresh:
-  #   post:
-  #     $ref: ../swagger/paths/auth/refresh.yaml
-  # /auth/send-reset-email:
-  #   post:
-  #     $ref: ../swagger/paths/auth/send-reset-email.yaml
-  # /auth/reset-pwd:
-  #   post:
-  #     $ref: ../swagger/paths/auth/reset-pwd.yaml
+paths:
+  /auth/signup:
+    post:
+      $ref: ../swagger/paths/auth/signup.yaml
+  /auth/signin:
+    post:
+      $ref: ../swagger/paths/auth/signin.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /auth/current:
+    get:
+      $ref: ../swagger/paths/auth/current.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout.yaml
+  /users/count:
+    get:
+      $ref: ../swagger/paths/users/count.yaml
+  /users/update:
+    patch:
+      $ref: ../swagger/paths/users/patchUserData.yaml
+  /users/avatar:
+    patch:
+      $ref: ../swagger/paths/users/patchAvatar.yaml
+  /water/add-water:
+    post:
+      $ref: ../swagger/paths/water/postAddWater.yaml
+  /water/monthly:
+    get:
+      $ref: ../swagger/paths/water/getMonthly.yaml
+  /water/daily:
+    get:
+      $ref: ../swagger/paths/water/getDaily.yaml
+  /water/delete/{id}:
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
+  /water/update-volume/{id}:
+    patch:
+      $ref: ../swagger/paths/water/{id}/patchUpdateVolume.yaml
 components:
   securitySchemes:
     bearerAuth:

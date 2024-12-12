@@ -1,0 +1,67 @@
+summary: Update the volume of water intake
+operationId: updateWaterVolume
+description: Updates the volume of water intake for a specified entry.
+tags:
+  - Water{id}
+security:
+  - bearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: The ID of the water intake entry to update.
+    schema:
+      type: string
+      example: '507f1f77bcf86cd799439011'
+requestBody:
+  description: Data to update the water intake entry
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          time:
+            type: string
+            example: '18:40'
+          volume:
+            type: number
+            description: Volume of water intake in milliliters
+            example: 250
+responses:
+  '200':
+    description: Volume of water intake updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code
+              example: 200
+            message:
+              type: string
+              description: Response message
+              example: Successfully updated volume of the water!
+            data:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: '66994d44b456e6b3c39d3582'
+                date:
+                  type: string
+                  example: '2024-07-18T17:13:40.860Z'
+                volume:
+                  type: number
+                  example: 500
+                userId:
+                  type: string
+                  example: '6693dd1c4693614757d726e0'
+  '400':
+    $ref: ../../../components/responses/400.yaml
+  '404':
+    $ref: ../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml

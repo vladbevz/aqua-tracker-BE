@@ -1,11 +1,11 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
+
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { swagger } from './middlewares/swagger.js';
 import userRoutes from './routers/userRoutes.js';
-import path from 'path';
 
 const PORT = 3000;
 
@@ -29,11 +29,9 @@ export const startServer = () => {
     }),
   );
 
-  const swaggerDocument = path.join(__dirname, '../docs/openapi.yaml');
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  
-  app.use('/users', userRoutes);
+  app.use('/api-docs', swagger());
 
+  app.use('/users', userRoutes);
 
   app.get('/', (req, res) => {
     res.json({

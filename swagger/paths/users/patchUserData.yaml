@@ -1,0 +1,50 @@
+summary: Update user data
+description: Updates user data
+operationId: Update
+tags:
+  - Users
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+responses:
+  '200':
+    description: Update successful
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Update successful
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'John'
+                email:
+                  type: string
+                  example: 'ssadasde@gmail.com'
+                gender":
+                  type: string
+                  example: 'woman'
+                weight:
+                  type: number
+                  example: 0
+                activeTimeSports":
+                  type: number
+                  example: 0
+                waterDrink:
+                  type: number
+                  example: 1.8
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml

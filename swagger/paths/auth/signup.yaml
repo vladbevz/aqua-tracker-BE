@@ -1,0 +1,83 @@
+summary: SignUp a new user
+operationId: registerUser
+tags:
+  - Auth
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            description: "User's email"
+            type: string
+            example: 'google@gmail.com'
+          password:
+            description: "User's password"
+            type: string
+            example: 'A213warl'
+responses:
+  '201':
+    description: User successfully signup
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                email:
+                  type: string
+                gender:
+                  type: string
+                  example: 'woman'
+                weight:
+                  type: number
+                  example: 0
+                activeTimeSports:
+                  type: number
+                  example: 0
+                waterDrink:
+                  type: number
+                  example: 1.8
+                token:
+                  type: string
+                  example: ''
+                tempToken:
+                  type: string
+                  example: ''
+                avatarUrl:
+                  type: string
+                  example: ''
+                googleId:
+                  type: string
+                  example: ''
+                verify:
+                  type: boolean
+                  example: false
+                verificationToken:
+                  type: string
+                  example: ''
+                _id:
+                  type: string
+                  example: '66995048b456e6b3c39d3599'
+                createdAt:
+                  type: string
+                  example: '2024-07-18T17:26:32.656Z'
+                updatedAt:
+                  type: string
+                  example: '2024-07-18T17:26:32.656Z'
+                message:
+                  type: string
+                  example: 'Successfully signup user!'
+
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml

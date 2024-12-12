@@ -1,0 +1,52 @@
+summary: Add water intake
+operationId: addWater
+description: Adds a new water intake record for the user.
+tags:
+  - Water
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          volume:
+            type: number
+            example: 1800
+          time:
+            type: string
+            example: '23:30'
+responses:
+  '201':
+    description: Successfully added water intake
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully added water!
+            data:
+              type: object
+              properties:
+                date:
+                  type: string
+                  example: '2024-07-18T21:24:06+03:00'
+                volume:
+                  type: number
+                  example: 650
+                userId:
+                  type: string
+                  example: '6693dd1c4693614757d726e0'
+                _id:
+                  type: string
+                  example: '66995dc67b708c82c1d5c288'
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
