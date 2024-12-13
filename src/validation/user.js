@@ -36,10 +36,6 @@ export const userRegisterSchema = Joi.object({
     'string.max': 'Password can be up to 64 characters',
     'string.empty': 'Password is required',
   }),
-  passwordConfirm: Joi.string().valid(Joi.ref('password')).required().messages({
-    'any.only': 'Passwords do not match',
-    'string.empty': 'Password confirmation is required',
-  }),
   // avatarUrl: Joi.string().uri().allow('').messages({
   //   'string.uri': 'Avatar URL must be a valid URI',
   // }),
