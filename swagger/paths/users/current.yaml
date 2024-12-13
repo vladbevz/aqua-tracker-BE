@@ -1,7 +1,7 @@
 summary: Get current user information
 operationId: getCurrentUser
 tags:
-  - Auth
+  - Users
 security:
   - bearerAuth: []
 responses:
