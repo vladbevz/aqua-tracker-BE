@@ -7,21 +7,20 @@ export const authenticate = async (req, res, next) => {
   const [bearer, token] = authorization.split(" ", 2);
 
   if (!authorization || bearer !== "Bearer" || !token) {
-    return next(createHttpError(401, "Invalid authorization header"));
+    return next(createHttpError(401, "Authorization header is missing or invalid"));
   }
 
   try {
-    const { id } = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
+    
+    // const { id } = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
 
-    const user = await UserCollection.findById(id);
+    
+    const user = await UserCollection.findOne({accessToken: token });
     if (!user) {
       return next(createHttpError(401, "User not found"));
     }
-
-    if (!user.accessToken || user.accessToken !== token) {
-      return next(createHttpError(401, "Invalid or expired token"));
-    }
-
+    console.log( "user", user);
+    
     req.user = user;
     next();
   } catch (error) {

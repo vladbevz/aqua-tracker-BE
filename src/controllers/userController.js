@@ -3,8 +3,10 @@ import UserCollection from '../db/models/User.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import createHttpError from 'http-errors';
 import * as userServices from '../services/user.js';
+import { accessTokenLifetime } from '../constants/users.js';
 
 const get = async (req, res) => {
+  console.log(req.user);
   const { name, email, gender, avatarURL } = req.user;
   res.json({ name, email, gender, avatarURL });
 };
@@ -108,6 +110,11 @@ export const loginController = async (req, res) => {
   res.cookie('sessionId', _id, {
     httpOnly: true,
     expires: refreshTokenValidUntil,
+  });
+  res.cookie('accessToken', accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(Date.now() + accessTokenLifetime),
   });
 
   res.json({
