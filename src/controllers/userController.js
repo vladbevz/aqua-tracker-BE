@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import UserCollection from '../db/models/User.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import createHttpError from 'http-errors';
+import * as userServices from '../services/user.js';
 
 const get = async (req, res) => {
   const { name, email, gender, avatarURL } = req.user;
@@ -75,7 +76,7 @@ const updateSettings = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  res.clearCookie('accessToken'); 
+  res.clearCookie('accessToken');
 
   res.status(200).json({
     success: true,
@@ -83,7 +84,40 @@ const logout = async (req, res) => {
   });
 };
 
+export const registerController = async (req, res) => {
+  const data = await userServices.register(req.body);
 
+  console.log('Registration payload:', req.body);
+
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully registerd user',
+    data: data,
+  });
+};
+
+export const loginController = async (req, res) => {
+  const { _id, accessToken, refreshToken, refreshTokenValidUntil } =
+    await userServices.login(req.body);
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    expires: refreshTokenValidUntil,
+  });
+
+  res.cookie('sessionId', _id, {
+    httpOnly: true,
+    expires: refreshTokenValidUntil,
+  });
+
+  res.json({
+    status: 200,
+    message: 'Successfully login user',
+    data: {
+      accessToken,
+    },
+  });
+};
 
 export const getCurrentUser = ctrlWrapper(get);
 export const updateUserSettings = ctrlWrapper(updateSettings);
