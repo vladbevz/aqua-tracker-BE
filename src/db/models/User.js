@@ -4,11 +4,11 @@ import { emailRegexp, typeList } from '../../constants/users.js';
 
 const userSchema = new Schema(
   {
-    gender: {
-      type: String,
-      enum: typeList,
-      default: 'woman',
-    },
+    // gender: {
+    //   type: String,
+    //   enum: typeList,
+    //   default: 'woman',
+    // },
 
     name: {
       type: String,
@@ -34,12 +34,13 @@ const userSchema = new Schema(
 
     daylyNorm: {
       type: Number,
-    }, accessToken: { 
+    },
+    accessToken: {
       type: String,
       default: '',
-    }
+    },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true },
 );
 
 userSchema.methods.toJSON = function () {
