@@ -315,12 +315,56 @@
         }
       }
     },
-    "/auth/current": {
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout the current user",
+        "operationId": "logOut",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjYyMTY0ODU4LCJleHAiOjE2NjIyNjQ4NTg4fQ"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "UserId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "66996a0e1a65dd13c4186b31"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged out successfully"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/users/current": {
       "get": {
         "summary": "Get current user information",
         "operationId": "getCurrentUser",
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
@@ -381,50 +425,6 @@
           },
           "500": {
             "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/auth/logout": {
-      "post": {
-        "summary": "Logout the current user",
-        "operationId": "logOut",
-        "tags": [
-          "Auth"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "access token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjYyMTY0ODU4LCJleHAiOjE2NjIyNjQ4NTg4fQ"
-            }
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "description": "UserId",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "66996a0e1a65dd13c4186b31"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User logged out successfully"
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
           }
         }
       }

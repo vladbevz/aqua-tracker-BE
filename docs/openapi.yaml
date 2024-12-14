@@ -28,12 +28,12 @@ paths:
   /auth/refresh:
     post:
       $ref: ../swagger/paths/auth/refresh.yaml
-  /auth/current:
-    get:
-      $ref: ../swagger/paths/auth/current.yaml
   /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout.yaml
+  /users/current:
+    get:
+      $ref: ../swagger/paths/users/current.yaml
   /users/count:
     get:
       $ref: ../swagger/paths/users/count.yaml

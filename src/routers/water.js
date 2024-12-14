@@ -6,7 +6,7 @@ import { setWaterRateController } from "../controllers/water.js";
 import { ctrlWrapper } from './../utils/ctrlWrapper.js';
 
 
-const waterRouter = Router();
+const router = Router();
 
 // use authenticate?
 waterRouter.use(authenticate);
@@ -19,4 +19,4 @@ waterRouter.use(authenticate);
     ctrlWrapper(setWaterRateController)
   );
 
-export default waterRouter;
+export default router;

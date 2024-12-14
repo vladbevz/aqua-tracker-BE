@@ -5,7 +5,7 @@ import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { swagger } from './middlewares/swagger.js';
-import userRoutes from './routers/userRoutes.js';
+import router from './routers/index.js';
 
 const PORT = 3000;
 
@@ -31,7 +31,7 @@ export const startServer = () => {
 
   app.use('/api-docs', swagger());
 
-  app.use('/users', userRoutes);
+  app.use(router);
 
   app.get('/', (req, res) => {
     res.json({
