@@ -10,6 +10,8 @@ export const getCurrent = async (req, res) => {
       return res.status(401).send('Not authorized');
     }
     res.status(200).json({
+      status: 200,
+      message: 'Successfully find user',
       user: {
         id: user._id,
         name: user.name,
