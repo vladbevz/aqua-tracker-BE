@@ -20,4 +20,6 @@ router.post(
 
 router.post('/logout', ctrlWrapper(authController.logoutController));
 
+router.post('/refresh', ctrlWrapper(authController.refreshController));
+
 export default router;

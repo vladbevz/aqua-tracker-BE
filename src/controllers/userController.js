@@ -3,8 +3,25 @@ import UserCollection from '../db/models/User.js';
 import createHttpError from 'http-errors';
 
 export const getCurrent = async (req, res) => {
-  const { name, email, gender, avatarURL } = req.user;
-  res.json({ name, email, gender, avatarURL });
+  try {
+    const userId = req.user._id;
+    const user = await UserCollection.findById(userId);
+    if (!user) {
+      return res.status(401).send('Not authorized');
+    }
+    res.status(200).json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        gender: user.gender,
+        avatarUrl: user.avatarUrl,
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
 
 export const updateSettings = async (req, res) => {
