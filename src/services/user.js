@@ -37,7 +37,7 @@ const createSession = () => {
 };
 
 export const register = async (payload) => {
-  const { email, password, name, gender } = payload;
+  const { email, password} = payload;
   const user = await UserCollection.findOne({ email });
   if (user) {
     throw createHttpError(409, 'Email already in use');
@@ -45,7 +45,7 @@ export const register = async (payload) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  return UserCollection.create({ ...payload, password: hashPassword, name, gender });
+  return UserCollection.create({ ...payload, password: hashPassword });
 };
 
 export const login = async ({ email, password }) => {
