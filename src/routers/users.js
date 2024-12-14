@@ -4,19 +4,18 @@ import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { userInfoUpdatedSchema } from '../validation/user.js';
-import { getCurrentUser} from '../controllers/userController.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 const userRouter = express.Router();
 
-userRouter.get('/current', authenticate, getCurrentUser);
+userRouter.get('/current', authenticate, ctrlWrapper(userController.getCurrent));
 
 userRouter.patch(
   '/update',
   authenticate,
   upload.single('avatar'),
   validateBody(userInfoUpdatedSchema),
-  userController.updateUserSettings,
+  ctrlWrapper(userController.updateSettings),
 );
-
 
 export default userRouter;

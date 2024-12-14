@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as userController from '../controllers/userController.js';
+import * as authController from '../controllers/authController.js';
 import { userRegisterSchema, userLoginSchema } from '../validation/user.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -9,15 +9,15 @@ const router = Router();
 router.post(
   '/signup',
   validateBody(userRegisterSchema),
-  ctrlWrapper(userController.registerController),
+  ctrlWrapper(authController.registerController),
 );
 
 router.post(
   '/signin',
   validateBody(userLoginSchema),
-  ctrlWrapper(userController.loginController),
+  ctrlWrapper(authController.loginController),
 );
 
-router.post('/logout', userController.logoutUser);
+router.post('/logout', ctrlWrapper(authController.logoutController));
 
 export default router;

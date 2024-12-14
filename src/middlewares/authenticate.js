@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+
 import createHttpError from "http-errors";
 import UserCollection from "../db/models/User.js";
 
@@ -10,11 +10,7 @@ export const authenticate = async (req, res, next) => {
     return next(createHttpError(401, "Authorization header is missing or invalid"));
   }
 
-  try {
-    
-    // const { id } = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
-
-    
+  try {  
     const user = await UserCollection.findOne({accessToken: token });
     if (!user) {
       return next(createHttpError(401, "User not found"));
