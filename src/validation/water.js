@@ -1,5 +1,13 @@
 import Joi from 'joi';
 
+export const setWaterDaylyNormShema = Joi.object({
+  curDaylyNorm: Joi.number().min(1).max(15000).default(1500).messages({
+    'number.base': 'The daily norm must be a number.',
+    'number.min': 'The daily norm must be at least 1 ml.',
+    'number.max': 'The daily norm cannot exceed 15000 ml.',
+  }),
+});
+
 const waterValidationSchema = Joi.object({
   date: Joi.date().required().messages({
     'date.base': 'The date must be a valid date.',
