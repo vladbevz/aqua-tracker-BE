@@ -1,7 +1,6 @@
 export const emailRegexp = /^\w+([/.-]?\w+)*@\w+([/.-]?\w+)*(\.\w{2,3})+$/;
 
-export const typeList = ['women', 'men'];
-
+export const typeList = ['woman', 'man'];
 
 export const accessTokenLifetime = 1000 * 60 * 15;
 

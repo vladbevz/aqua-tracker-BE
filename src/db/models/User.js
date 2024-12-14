@@ -4,15 +4,9 @@ import { emailRegexp, typeList } from '../../constants/users.js';
 
 const userSchema = new Schema(
   {
-    // gender: {
-    //   type: String,
-    //   enum: typeList,
-    //   default: 'woman',
-    // },
-
     name: {
       type: String,
-  
+      default: 'User',
     },
 
     email: {
@@ -27,6 +21,12 @@ const userSchema = new Schema(
       required: true,
     },
 
+    gender: {
+      type: String,
+      enum: typeList,
+      default: 'woman',
+    },
+
     avatarUrl: {
       type: String,
       // default: null,
@@ -35,6 +35,7 @@ const userSchema = new Schema(
 
     daylyNorm: {
       type: Number,
+      default: 1800,
     },
     accessToken: {
       type: String,
