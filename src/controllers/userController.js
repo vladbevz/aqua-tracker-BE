@@ -1,15 +1,13 @@
 import bcrypt from 'bcrypt';
 import UserCollection from '../db/models/User.js';
-import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import createHttpError from 'http-errors';
-import * as userServices from '../services/user.js';
 
-const get = async (req, res) => {
+export const getCurrent = async (req, res) => {
   const { name, email, gender, avatarURL } = req.user;
   res.json({ name, email, gender, avatarURL });
 };
 
-const updateSettings = async (req, res) => {
+export const updateSettings = async (req, res) => {
   const { outdatedPassword, newPassword, newEmail } = req.body;
   const { _id, currentEmail, password } = req.user;
 
@@ -74,51 +72,3 @@ const updateSettings = async (req, res) => {
   const { name = '', gender, email } = updatedUser;
   res.status(200).json({ email, name, gender, avatarURL });
 };
-
-const logout = async (req, res) => {
-  res.clearCookie('accessToken');
-
-  res.status(200).json({
-    success: true,
-    message: 'Successfully logged out',
-  });
-};
-
-export const registerController = async (req, res) => {
-  const data = await userServices.register(req.body);
-
-  console.log('Registration payload:', req.body);
-
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully registerd user',
-    data: data,
-  });
-};
-
-export const loginController = async (req, res) => {
-  const { _id, accessToken, refreshToken, refreshTokenValidUntil } =
-    await userServices.login(req.body);
-
-  res.cookie('refreshToken', refreshToken, {
-    httpOnly: true,
-    expires: refreshTokenValidUntil,
-  });
-
-  res.cookie('sessionId', _id, {
-    httpOnly: true,
-    expires: refreshTokenValidUntil,
-  });
-
-  res.json({
-    status: 200,
-    message: 'Successfully login user',
-    data: {
-      accessToken,
-    },
-  });
-};
-
-export const getCurrentUser = ctrlWrapper(get);
-export const updateUserSettings = ctrlWrapper(updateSettings);
-export const logoutUser = ctrlWrapper(logout);
