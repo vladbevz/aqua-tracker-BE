@@ -1,22 +1,22 @@
 import { Router } from "express";
-// import { validateBody } from "../middlewares/validateBody.js";
+import { validateBody } from "../middlewares/validateBody.js";
 import { authenticate } from "../middlewares/authenticate.js";
-// import { setWaterShema } from "../validation/water.js";
 import { setWaterRateController } from "../controllers/water.js";
 import { ctrlWrapper } from './../utils/ctrlWrapper.js';
+import { setWaterDaylyNormShema } from './../validation/water.js';
 
 
 const router = Router();
 
 // use authenticate?
-waterRouter.use(authenticate);
+router.use(authenticate);
 
   // response controllers
 
-  waterRouter.post(
+  router.post(
     '/setwaterrate',
-    // validateBody(setWaterRateShema),
-    ctrlWrapper(setWaterRateController)
+    validateBody(setWaterDaylyNormShema),
+    ctrlWrapper(setWaterRateController),
   );
 
 export default router;

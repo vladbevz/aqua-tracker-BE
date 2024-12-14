@@ -5,10 +5,11 @@ export const setWaterRate = async (
   payload,
   options = { new: true }
 ) => {
-  const daylyNorm = 1500;
+
+  const daylyNorm = payload.curDaylyNorm;
   const updateUser = await UserCollection.findOneAndUpdate(
     { _id: userId },
-    { ...payload },
+    { daylyNorm },
     { ...options },
   );
 
