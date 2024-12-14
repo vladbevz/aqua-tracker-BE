@@ -2,18 +2,41 @@ import * as authServices from '../services/auth.js';
 import { accessTokenLifetime } from '../constants/users.js';
 
 export const registerController = async (req, res) => {
-  const data = await authServices.register(req.body);
+  const resData = await authServices.register(req.body);
+
+  const { _id, accessToken, refreshToken, refreshTokenValidUntil } =
+    resData.session;
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    expires: refreshTokenValidUntil,
+  });
+
+  res.cookie('sessionId', _id, {
+    httpOnly: true,
+    expires: refreshTokenValidUntil,
+  });
+  res.cookie('accessToken', accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(Date.now() + accessTokenLifetime),
+  });
 
   res.status(201).json({
     status: 201,
     message: 'Successfully registerd user',
-    data,
+    data: {
+      user: resData.user,
+      accessToken,
+    },
   });
 };
 
 export const loginController = async (req, res) => {
+  const resData = await authServices.login(req.body);
+
   const { _id, accessToken, refreshToken, refreshTokenValidUntil } =
-    await authServices.login(req.body);
+    resData.session;
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
@@ -34,9 +57,8 @@ export const loginController = async (req, res) => {
     status: 200,
     message: 'Successfully login user',
     data: {
+      user: resData.user,
       accessToken,
-      refreshToken,
-      userId: _id,
     },
   });
 };
