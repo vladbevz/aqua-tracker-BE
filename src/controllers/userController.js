@@ -6,7 +6,7 @@ import * as userServices from '../services/user.js';
 import { accessTokenLifetime } from '../constants/users.js';
 
 const get = async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   const { name, email, gender, avatarURL } = req.user;
   res.json({ name, email, gender, avatarURL });
 };
@@ -89,7 +89,7 @@ const logout = async (req, res) => {
 export const registerController = async (req, res) => {
   const data = await userServices.register(req.body);
 
-  console.log('Registration payload:', req.body);
+  // console.log('Registration payload:', req.body);
 
   res.status(201).json({
     status: 201,
