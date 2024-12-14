@@ -17,7 +17,12 @@ export const register = async (payload) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  return UserCollection.create({ ...payload, password: hashPassword });
+  const persistUser = await UserCollection.create({
+    ...payload,
+    password: hashPassword,
+  });
+  const session = await createSessionForUser(persistUser._id);
+  return { user: persistUser, session: session };
 };
 
 export const login = async ({ email, password }) => {
@@ -32,17 +37,8 @@ export const login = async ({ email, password }) => {
     throw createHttpError(401, 'Email or password invalid');
   }
 
-  await SessionCollection.deleteOne({ userId: user._id });
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
-
-  return await SessionCollection.create({
-    userId: user._id,
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + accessTokenLifetime),
-    refreshTokenValidUntil: new Date(Date.now() + refreshTokenLifetime),
-  });
+  const session = await createSessionForUser(user._id);
+  return { user, session };
 };
 
 const createSession = () => {
@@ -84,6 +80,18 @@ export const refreshUserSession = async ({ sessionId, refreshToken }) => {
   });
 };
 
+const createSessionForUser = async (userId) => {
+  await SessionCollection.deleteOne({ userId: userId });
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+  return await SessionCollection.create({
+    userId: userId,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + accessTokenLifetime),
+    refreshTokenValidUntil: new Date(Date.now() + refreshTokenLifetime),
+  });
+};
 export const findSession = (filter) => SessionCollection.findOne(filter);
 
 export const findUser = (filter) => UserCollection.findOne(filter);
