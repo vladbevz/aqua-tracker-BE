@@ -722,10 +722,10 @@
         }
       }
     },
-    "/water/daily": {
-      "get": {
-        "summary": "Get daily water intake",
-        "operationId": "getDayilyWater",
+    "/water/update-water-daily": {
+      "patch": {
+        "summary": "Update water daily",
+        "operationId": "UpdateWaterDaily",
         "description": "Retrieves the user's water intake for a specified date.",
         "tags": [
           "Water"
@@ -735,29 +735,21 @@
             "bearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "name": "dailyNorma",
-            "in": "query",
-            "required": true,
-            "description": "The daily water intake norm in milliliters.",
-            "schema": {
-              "type": "number",
-              "example": 2000
-            }
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "required": false,
-            "description": "The date for which to retrieve the water intake (YYYY-MM-DD). Defaults to the current date.",
-            "schema": {
-              "type": "string",
-              "format": "date",
-              "example": "2024-07-14"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "curDailyNorm": {
+                    "type": "number",
+                    "example": 1800
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Daily water intake retrieved successfully",
@@ -766,23 +758,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "percentage": {
-                      "type": "number",
-                      "description": "The percentage of daily water intake goal achieved.",
-                      "example": 75
+                    "status": {
+                      "type": "string"
                     },
-                    "arrDailyWater": {
-                      "type": "array",
-                      "properties": {
-                        "time": {
-                          "type": "string",
-                          "example": "08:39"
-                        },
-                        "volume": {
-                          "type": "number",
-                          "example": 350
-                        }
-                      }
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully set water rate!"
                     }
                   }
                 }

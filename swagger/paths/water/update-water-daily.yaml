@@ -1,0 +1,42 @@
+summary: Update water daily
+operationId: UpdateWaterDaily
+description: Retrieves the user's water intake for a specified date.
+tags:
+  - Water
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          curDailyNorm:
+            type: number
+            example: 1800
+responses:
+  '200':
+    description: Daily water intake retrieved successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+            message:
+              type: string
+              example: Successfully set water rate!
+
+  '400':
+    description: Invalid dailyNorma format
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Invalid dailyNorma format
+  '500':
+    $ref: ../../components/responses/500.yaml
