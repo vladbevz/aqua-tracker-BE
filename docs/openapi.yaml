@@ -46,9 +46,9 @@ paths:
   /water/monthly:
     get:
       $ref: ../swagger/paths/water/getMonthly.yaml
-  /water/daily:
-    get:
-      $ref: ../swagger/paths/water/getDaily.yaml
+  /water/update-water-daily:
+    patch:
+      $ref: ../swagger/paths/water/update-water-daily.yaml
   /water/delete/{id}:
     delete:
       $ref: ../swagger/paths/water/{id}/delete.yaml

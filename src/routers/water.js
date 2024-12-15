@@ -12,8 +12,8 @@ router.use(authenticate);
 
 // response controllers
 
-router.post(
-  '/add-water',
+router.patch(
+  '/update-water-daily',
   validateBody(setWaterDaylyNormShema),
   ctrlWrapper(setWaterRateController),
 );
