@@ -31,10 +31,10 @@ export const updateSettings = async (req, res) => {
   const { _id, currentEmail, password } = req.user;
 
   let hashedNewPassword;
-  let avatarURL;
+  let avatarUrl;
 
   if (req.file) {
-    avatarURL = req.file.path;
+    avatarUrl = req.file.path;
   } else {
     const keys = Object.keys(req.body);
     if (!keys.length) {
@@ -76,8 +76,8 @@ export const updateSettings = async (req, res) => {
   if (hashedNewPassword) {
     updatedUserData.password = hashedNewPassword;
   }
-  if (avatarURL) {
-    updatedUserData.avatarURL = avatarURL;
+  if (avatarUrl) {
+    updatedUserData.avatarUrl = avatarUrl;
   }
 
   const updatedUser = await UserCollection.findByIdAndUpdate(
@@ -88,6 +88,9 @@ export const updateSettings = async (req, res) => {
     },
   );
 
-  const { name = '', gender, email } = updatedUser;
-  res.status(200).json({ email, name, gender, avatarURL });
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully update data',
+    user: updatedUser,
+  });
 };

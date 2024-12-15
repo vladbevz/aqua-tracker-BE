@@ -8,12 +8,16 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 const userRouter = express.Router();
 
-userRouter.get('/current', authenticate, ctrlWrapper(userController.getCurrent));
+userRouter.get(
+  '/current',
+  authenticate,
+  ctrlWrapper(userController.getCurrent),
+);
 
 userRouter.patch(
   '/update',
   authenticate,
-  upload.single('avatar'),
+  upload.single('avatarUrl'),
   validateBody(userInfoUpdatedSchema),
   ctrlWrapper(userController.updateSettings),
 );
