@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import UserCollection from '../db/models/User.js';
 import createHttpError from 'http-errors';
+import { env } from '../utils/env.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const getCurrent = async (req, res) => {
   try {
@@ -29,12 +31,12 @@ export const getCurrent = async (req, res) => {
 export const updateSettings = async (req, res) => {
   const { outdatedPassword, newPassword, newEmail } = req.body;
   const { _id, currentEmail, password } = req.user;
-
   let hashedNewPassword;
   let avatarUrl;
+  const photo = req.file;
 
-  if (req.file) {
-    avatarUrl = req.file.path;
+  if (photo) {
+    avatarUrl = await saveFileToCloudinary(photo);
   } else {
     const keys = Object.keys(req.body);
     if (!keys.length) {
