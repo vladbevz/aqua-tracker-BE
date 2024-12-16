@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors';
 import {
   getTodayWaterList,
+  getMonthWaterList,
   createWater,
   deleteWater,
   updateWater,
@@ -9,7 +10,6 @@ import {
 //GET today water list
 export const getTodayWaterListController = async (req, res) => {
   const userId = req.user._id;
-  console.log(req.params);
   const dateStr = req.query.date;
   let date = new Date();
   if (dateStr) {
@@ -77,5 +77,23 @@ export const patchWaterController = async (req, res, next) => {
     status: 200,
     message: `Successfully patched a Water!`,
     data: result.water,
+  });
+};
+
+export const getMonthWaterListController = async (req, res) => {
+  const userId = req.user._id;
+  const year = req.params.year;
+  const month = req.params.month;
+
+  const filter = { year, month, userId };
+
+  const monthWaterList = await getMonthWaterList({
+    filter,
+  });
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found records!',
+    data: { monthWaterList },
   });
 };
