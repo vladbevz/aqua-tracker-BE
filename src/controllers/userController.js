@@ -14,12 +14,14 @@ export const getCurrent = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: 'Successfully find user',
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        gender: user.gender,
-        avatarUrl: user.avatarUrl,
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          gender: user.gender,
+          avatarUrl: user.avatarUrl,
+        },
       },
     });
   } catch (error) {
@@ -93,6 +95,8 @@ export const updateSettings = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Successfully update data',
-    user: updatedUser,
+    data: {
+      user: updatedUser,
+    },
   });
 };
