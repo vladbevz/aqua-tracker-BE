@@ -13,12 +13,10 @@ export const userInfoUpdatedSchema = Joi.object({
   }),
   outdatedPassword: Joi.string().min(8).max(64),
   newPassword: Joi.string().min(8).max(64),
-  gender: Joi.string()
-    .valid('male', 'female')
-    .messages({
-      'any.only': "Gender must be either 'male' or 'female'.",
-      daylyNorm: Joi.number().min(500).max(15000),
-    }),
+  gender: Joi.string().valid('male', 'female').messages({
+    'any.only': "Gender must be either 'male' or 'female'.",
+  }),
+  daylyNorm: Joi.number().min(500).max(15000),
 });
 
 export const userRegisterSchema = Joi.object({
