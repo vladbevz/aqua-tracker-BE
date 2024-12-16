@@ -14,9 +14,9 @@ const waterSchema = new Schema(
       type: Number,
       default: 1500,
     },
-    servings: {
-      type: Number,
-    },
+    // servings: {
+    //   type: Number,
+    // },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'user',

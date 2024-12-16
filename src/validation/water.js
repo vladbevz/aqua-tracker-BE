@@ -28,11 +28,11 @@ const waterValidationSchema = Joi.object({
     'number.min': 'The daily norm must be at least 1 ml.',
     'number.max': 'The daily norm cannot exceed 15000 ml.',
   }),
-  servings: Joi.number().integer().min(0).messages({
-    'number.base': 'The number of servings must be a number.',
-    'number.integer': 'The number of servings must be an integer.',
-    'number.min': 'The number of servings must be at least 0.',
-  }),
+  // servings: Joi.number().integer().min(0).messages({
+  //   'number.base': 'The number of servings must be a number.',
+  //   'number.integer': 'The number of servings must be an integer.',
+  //   'number.min': 'The number of servings must be at least 0.',
+  // }),
 });
 
 export default waterValidationSchema;
