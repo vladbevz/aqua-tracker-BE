@@ -1,5 +1,6 @@
 import WaterCollection from '../db/models/Water.js';
 import { SORT_ORDER } from '../constants/index.js';
+import { getUserInfo } from './user.js';
 
 export const getTodayWaterList = async ({
   sortOrder = SORT_ORDER.ASC,
@@ -57,13 +58,19 @@ export const getMonthWaterList = async ({
     .countDocuments();
 
   const waters = await watersQuery.sort({ [sortBy]: sortOrder }).exec();
+  const user = await getUserInfo(filter.userId);
+  const splitWaterList = list(waters).map((el) => ({
+    ...el,
+    daylyNorm: user.daylyNorm,
+    servings: Math.trunc((el.amountWaterPerDay * 100) / user.daylyNorm) + '%',
+  }));
 
   return {
     month: filter.month,
     amountWaterPerMont: waters
       .map((el) => el.amount)
       .reduce((partialSum, a) => partialSum + a, 0),
-    monthWaterList: list(waters),
+    monthWaterList: splitWaterList,
   };
 };
 
@@ -103,13 +110,13 @@ function list(arr) {
   const m = new Map();
   return arr.reduce((a, o) => {
     const d = o.date.toISOString().split('T')[0];
-    console.log('date d ', d);
     const i = m.has(d) ? m.get(d) : a.length;
     if (!a[i]) {
-      a[i] = { date: d, waterDayList: [] };
+      a[i] = { date: d, amountWaterPerDay: 0, dayWaterList: [] };
       m.set(d, i);
     }
-    a[i].waterDayList.push(o);
+    a[i].dayWaterList.push(o);
+    a[i].amountWaterPerDay = a[i].amountWaterPerDay + o.amount;
     return a;
   }, []);
 }
