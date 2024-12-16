@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { validateBody } from '../middlewares/validateBody.js';
+//import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { setWaterRateController } from '../controllers/water.js';
+import {
+  getTodayWaterListController,
+  createWaterController,
+  deleteWaterController,
+  patchWaterController,
+} from '../controllers/water.js';
 import { ctrlWrapper } from './../utils/ctrlWrapper.js';
-import { setWaterDaylyNormShema } from './../validation/water.js';
+import { isValidId } from '../middlewares/isValidId.js';
 
 const router = Router();
 
@@ -12,10 +17,21 @@ router.use(authenticate);
 
 // response controllers
 
+//GET waters
+router.get('/', ctrlWrapper(getTodayWaterListController));
+
+//POST new Water record
+router.post('/', ctrlWrapper(createWaterController));
+
+//DELETE
+router.delete('/:waterId', isValidId, ctrlWrapper(deleteWaterController));
+
+//PATCH
 router.patch(
-  '/update-water-daily',
-  validateBody(setWaterDaylyNormShema),
-  ctrlWrapper(setWaterRateController),
+  '/:waterId',
+  isValidId,
+  //validateBody(updateWatrerSchema),
+  ctrlWrapper(patchWaterController),
 );
 
 export default router;
