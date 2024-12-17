@@ -7,6 +7,7 @@ import {
   deleteWaterController,
   patchWaterController,
   getMonthWaterListController,
+  getDayWaterListController,
 } from '../controllers/water.js';
 import { ctrlWrapper } from './../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
@@ -22,6 +23,7 @@ router.use(authenticate);
 router.get('/', ctrlWrapper(getTodayWaterListController));
 
 router.get('/:year/:month', ctrlWrapper(getMonthWaterListController));
+router.get('/:year/:month/:day', ctrlWrapper(getDayWaterListController));
 
 //POST new Water record
 router.post('/', ctrlWrapper(createWaterController));

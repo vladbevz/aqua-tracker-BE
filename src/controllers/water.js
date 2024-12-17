@@ -1,4 +1,5 @@
 import createHttpError from 'http-errors';
+import { getMonthIndex } from '../utils/date.js';
 import {
   getTodayWaterList,
   getMonthWaterList,
@@ -10,13 +11,40 @@ import {
 //GET today water list
 export const getTodayWaterListController = async (req, res) => {
   const userId = req.user._id;
-  const dateStr = req.query.date;
-  let date = new Date();
-  if (dateStr) {
-    date = new Date(dateStr);
-  }
+  var today = new Date();
+  const dateStart = new Date(today.setUTCHours(0, 0, 0, 0));
+  const dateEnd = new Date(today.setUTCHours(23, 59, 59, 999));
+  const filter = { dateStart, dateEnd, userId };
 
-  const filter = { date, userId };
+  const todayWaterList = await getTodayWaterList({
+    filter,
+  });
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found records!',
+    data: todayWaterList,
+  });
+};
+
+export const getDayWaterListController = async (req, res) => {
+  const userId = req.user._id;
+  const year = req.params.year;
+  const month = getMonthIndex(req.params.month.toLowerCase());
+  const day = req.params.day;
+  const dateStart = new Date(Date.UTC(year, month, day)).setUTCHours(
+    0,
+    0,
+    0,
+    0,
+  );
+  const dateEnd = new Date(Date.UTC(year, month, day)).setUTCHours(
+    23,
+    59,
+    59,
+    999,
+  );
+  const filter = { dateStart, dateEnd, userId };
 
   const todayWaterList = await getTodayWaterList({
     filter,
@@ -83,9 +111,10 @@ export const patchWaterController = async (req, res, next) => {
 export const getMonthWaterListController = async (req, res) => {
   const userId = req.user._id;
   const year = req.params.year;
-  const month = req.params.month;
-
-  const filter = { year, month, userId };
+  const month = getMonthIndex(req.params.month.toLowerCase());
+  const dateStart = new Date(Date.UTC(year, month, 1));
+  const dateEnd = new Date(Date.UTC(year, month + 1, 0));
+  const filter = { dateStart, dateEnd, userId };
 
   const monthWaterList = await getMonthWaterList({
     filter,
