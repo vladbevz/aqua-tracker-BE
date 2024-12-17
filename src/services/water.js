@@ -17,9 +17,9 @@ export const getTodayWaterList = async ({
     watersQuery.where('userId').equals(filter.userId);
   }
 
-  // const watersCount = await WaterCollection.find()
-  //   .merge(watersQuery)
-  //   .countDocuments();
+  const watersCount = await WaterCollection.find()
+    .merge(watersQuery)
+    .countDocuments();
 
   const waters = await watersQuery.sort({ [sortBy]: sortOrder }).exec();
   const amountWaterPerDay = waters
@@ -28,7 +28,8 @@ export const getTodayWaterList = async ({
   return {
     daylyNorm: user.daylyNorm,
     amountWaterPerDay,
-    servings: Math.trunc((amountWaterPerDay * 100) / user.daylyNorm) + '%',
+    servings: watersCount,
+    percent: Math.trunc((amountWaterPerDay * 100) / user.daylyNorm),
     todayWaterList: waters,
   };
 };
@@ -56,7 +57,8 @@ export const getMonthWaterList = async ({
   const splitWaterList = list(waters).map((el) => ({
     ...el,
     daylyNorm: user.daylyNorm,
-    servings: Math.trunc((el.amountWaterPerDay * 100) / user.daylyNorm) + '%',
+    servings: el.dayWaterList.length,
+    percent: Math.trunc((el.amountWaterPerDay * 100) / user.daylyNorm),
   }));
 
   return {
