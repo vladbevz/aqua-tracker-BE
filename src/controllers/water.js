@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { getMonthIndex } from '../utils/date.js';
+import { getMonthIndex, getMonthName } from '../utils/date.js';
 import {
   getTodayWaterList,
   getMonthWaterList,
@@ -119,10 +119,10 @@ export const getMonthWaterListController = async (req, res) => {
   const monthWaterList = await getMonthWaterList({
     filter,
   });
-
+  const additionalInfo = { year, month: getMonthName(month) };
   res.status(200).json({
     status: 200,
     message: 'Successfully found records!',
-    data: { data: monthWaterList },
+    data: { data: Object.assign(monthWaterList, additionalInfo) },
   });
 };
