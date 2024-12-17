@@ -9,24 +9,21 @@ export const getTodayWaterList = async ({
 }) => {
   const watersQuery = WaterCollection.find();
 
-  if (filter.date) {
-    const start = new Date(filter.date.setHours(0, 0, 0, 0));
-    const end = new Date(filter.date.setHours(23, 59, 59, 999));
-    watersQuery.where('date').gte(start).lte(end);
+  if (filter.dateStart && filter.dateEnd) {
+    watersQuery.where('date').gte(filter.dateStart).lte(filter.dateEnd);
   }
   if (filter.userId) {
     watersQuery.where('userId').equals(filter.userId);
   }
 
-  const watersCount = await WaterCollection.find()
-    .merge(watersQuery)
-    .countDocuments();
+  // const watersCount = await WaterCollection.find()
+  //   .merge(watersQuery)
+  //   .countDocuments();
 
   const waters = await watersQuery.sort({ [sortBy]: sortOrder }).exec();
 
   return {
     todayWaterList: waters,
-    servings: watersCount,
   };
 };
 
@@ -35,27 +32,18 @@ export const getMonthWaterList = async ({
   sortBy = '_id',
   filter = {},
 }) => {
-  console.log('FILTER: ', filter);
   const watersQuery = WaterCollection.find();
 
-  if (filter.year && filter.month) {
-    const start = new Date(filter.year, filter.month, 1).setHours(0, 0, 0, 0);
-    const end = new Date(filter.year, filter.month + 1, 0).setHours(
-      23,
-      59,
-      59,
-      999,
-    );
-    console.log('DATA first + end: ', start, end);
-    watersQuery.where('date').gte(start).lte(end);
+  if (filter.dateStart && filter.dateEnd) {
+    watersQuery.where('date').gte(filter.dateStart).lte(filter.dateEnd);
   }
   if (filter.userId) {
     watersQuery.where('userId').equals(filter.userId);
   }
 
-  const watersCount = await WaterCollection.find()
-    .merge(watersQuery)
-    .countDocuments();
+  // const watersCount = await WaterCollection.find()
+  //   .merge(watersQuery)
+  //   .countDocuments();
 
   const waters = await watersQuery.sort({ [sortBy]: sortOrder }).exec();
   const user = await getUserInfo(filter.userId);
@@ -66,8 +54,7 @@ export const getMonthWaterList = async ({
   }));
 
   return {
-    month: filter.month,
-    amountWaterPerMont: waters
+    amountWaterPerMonth: waters
       .map((el) => el.amount)
       .reduce((partialSum, a) => partialSum + a, 0),
     monthWaterList: splitWaterList,

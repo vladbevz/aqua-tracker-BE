@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import UserCollection from '../db/models/User.js';
 import createHttpError from 'http-errors';
-import { env } from '../utils/env.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const getCurrent = async (req, res) => {
@@ -19,6 +18,7 @@ export const getCurrent = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          daylyNorm: user.daylyNorm,
           gender: user.gender,
           avatarUrl: user.avatarUrl,
         },
