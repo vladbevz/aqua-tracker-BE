@@ -7,6 +7,7 @@ export const getTodayWaterList = async ({
   sortBy = '_id',
   filter = {},
 }) => {
+  const user = await getUserInfo(filter.userId);
   const watersQuery = WaterCollection.find();
 
   if (filter.dateStart && filter.dateEnd) {
@@ -21,8 +22,13 @@ export const getTodayWaterList = async ({
   //   .countDocuments();
 
   const waters = await watersQuery.sort({ [sortBy]: sortOrder }).exec();
-
+  const amountWaterPerDay = waters
+    .map((el) => el.amount)
+    .reduce((partialSum, a) => partialSum + a, 0);
   return {
+    daylyNorm: user.daylyNorm,
+    amountWaterPerDay,
+    servings: Math.trunc((amountWaterPerDay * 100) / user.daylyNorm) + '%',
     todayWaterList: waters,
   };
 };
