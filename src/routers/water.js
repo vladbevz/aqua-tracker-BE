@@ -23,6 +23,7 @@ router.use(authenticate);
 router.get('/', ctrlWrapper(getTodayWaterListController));
 
 router.get('/:year/:month', ctrlWrapper(getMonthWaterListController));
+//
 router.get('/:year/:month/:day', ctrlWrapper(getDayWaterListController));
 
 //POST new Water record

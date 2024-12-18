@@ -101,15 +101,43 @@ export const updateSettings = async (req, res) => {
   });
 };
 
-export const updateWaterRateController = async(req,res,next) => {
-
-
-
+export const updateWaterRateController = async (req, res, next) => {
+  // const { daylyNorm } = req.body;
 };
 
-export const updateUserAvatarController = async(req,res,next) => {
+export const updateUserAvatarController = async (req, res, next) => {
+  try {
+    let avatarUrl;
+    const photo = req.file;
 
+    if (photo) {
+      avatarUrl = await saveFileToCloudinary(photo);
+    }
 
-
+    const updatedUserData = { ...req.body };
+    if (avatarUrl) {
+      updatedUserData.avatarUrl = avatarUrl;
+    }
+    const { _id } = req.user;
+    const updatedUser = await UserCollection.findByIdAndUpdate(
+      _id,
+      updatedUserData,
+      { new: true },
+    );
+    if (!updatedUser) {
+      return res.status(404).json({
+        status: 404,
+        message: 'User not found',
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully updated user avatar',
+      data: {
+        avatarUrl: updatedUser.avatarUrl,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
-

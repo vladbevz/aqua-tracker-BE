@@ -8,14 +8,10 @@ export const updateUserInfo = async (userId, updates) => {
   return await UserCollection.findByIdAndUpdate(userId, updates, { new: true });
 };
 
-export const updateWaterRate = async(daylyNorm) => {
-  // return await
-
-
+export const updateWaterRate = async (userId, updates) => {
+  return await UserCollection.findByIdAndUpdate(userId, updates, { new: true });
 };
 
-export const updateUserAvatarUrl = async(daylyNorm) => {
-  // return await
-
-
+export const updateUserAvatarUrl = async (userId, updates) => {
+  return await UserCollection.findByIdAndUpdate(userId, updates, { new: true });
 };
