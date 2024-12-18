@@ -1,6 +1,6 @@
-summary: Add water intake
-operationId: addWater
-description: Adds a new water intake record for the user.
+summary: Add serving of water
+operationId: AddWaterServing
+description: Adds a new serving of water record for the user.
 tags:
   - Water
 security:
@@ -11,15 +11,15 @@ requestBody:
     application/json:
       schema:
         properties:
-          volume:
+          amount:
             type: number
-            example: 1800
-          time:
+            example: 250
+          date:
             type: string
-            example: '23:30'
+            example: '17-12-2024 18:26:00'
 responses:
   '201':
-    description: Successfully added water intake
+    description: Successfully added serving of water
     content:
       application/json:
         schema:
@@ -37,7 +37,7 @@ responses:
                 date:
                   type: string
                   example: '2024-07-18T21:24:06+03:00'
-                volume:
+                amount:
                   type: number
                   example: 650
                 userId:
@@ -48,5 +48,9 @@ responses:
                   example: '66995dc67b708c82c1d5c288'
   '400':
     $ref: ../../components/responses/400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
   '500':
     $ref: ../../components/responses/500.yaml

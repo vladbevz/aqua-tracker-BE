@@ -1,6 +1,6 @@
-summary: Delete water intake
+summary: Delete serving of water
 operationId: deleteWater
-description: Deletes a water intake record for the user.
+description: Deletes serving of water entry for user
 tags:
   - Water{id}
 security:
@@ -9,13 +9,17 @@ parameters:
   - name: id
     in: path
     required: true
-    description: The ID of the water intake record to delete.
+    description: The ID serving of water to delete.
     schema:
       type: string
       example: '507f1f77bcf86cd799439011'
 responses:
   '204':
-    description: Successfully deleted water intake
+    description: Successfully deleted serving of water
+  '400':
+    $ref: ../../../components/responses/400.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
   '404':
     $ref: ../../../components/responses/404.yaml
   '500':

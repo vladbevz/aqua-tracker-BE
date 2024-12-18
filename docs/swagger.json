@@ -535,7 +535,7 @@
                   "image": {
                     "type": "string",
                     "format": "binary",
-                    "description": "The image file to upload (JPEG or PNG only)"
+                    "description": "The image file to upload"
                   }
                 }
               }
@@ -544,7 +544,7 @@
         },
         "responses": {
           "200": {
-            "description": "Update successful",
+            "description": "Update successful avatar",
             "content": {
               "application/json": {
                 "schema": {
@@ -570,19 +570,86 @@
             }
           },
           "400": {
-            "description": "Bad Request — Invalid input",
             "$ref": "#/components/responses/400"
           },
           "401": {
-            "description": "Unauthorized — User authentication failed",
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not Found — Resource not found",
             "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error",
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/waterRate": {
+      "patch": {
+        "summary": "Update user water rate",
+        "description": "Updates user water rate",
+        "operationId": "UpdateUserWaterRate",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "waterRate": {
+                    "type": "number",
+                    "description": "The water rate to update",
+                    "example": 5000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update  water rate successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Update  water rate successful"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "waterRate": {
+                          "type": "number",
+                          "example": 5000
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
             "$ref": "#/components/responses/500"
           }
         }

@@ -1,24 +1,44 @@
-summary: 'Update users water rate'
-operationId: updateUsersWaterRate
-description: 'Returns the total number of users in the database.'
+summary: Update user water rate
+description: Updates user water rate
+operationId: UpdateUserWaterRate
 tags:
   - Users
 security:
   - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          waterRate:
+            type: number
+            description: The water rate to update
+            example: 5000
 responses:
   '200':
-    description: 'Total number of users fetched successfully'
+    description: Update  water rate successful
     content:
       application/json:
         schema:
           type: object
-          required:
-            - usersQuantity
           properties:
-            usersQuantity:
-              type: number
-              example: 56
+            message:
+              type: string
+              example: Update  water rate successful
+            user:
+              type: object
+              properties:
+                waterRate:
+                  type: number
+                  example: 5000
+  '400':
+    $ref: ../../components/responses/400.yaml
   '401':
     $ref: ../../components/responses/401.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
   '500':
     $ref: ../../components/responses/500.yaml
+
