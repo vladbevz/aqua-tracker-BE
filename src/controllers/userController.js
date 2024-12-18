@@ -100,3 +100,16 @@ export const updateSettings = async (req, res) => {
     },
   });
 };
+
+export const updateWaterRateController = async(req,res,next) => {
+
+
+
+};
+
+export const updateUserAvatarController = async(req,res,next) => {
+
+
+
+};
+

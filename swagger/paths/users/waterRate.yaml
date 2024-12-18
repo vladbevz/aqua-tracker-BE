@@ -1,5 +1,5 @@
-summary: 'Get total number of users'
-operationId: getUsersCount
+summary: 'Update users water rate'
+operationId: updateUsersWaterRate
 description: 'Returns the total number of users in the database.'
 tags:
   - Users

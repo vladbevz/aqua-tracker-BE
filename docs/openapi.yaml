@@ -34,12 +34,12 @@ paths:
   /users/current:
     get:
       $ref: ../swagger/paths/users/current.yaml
-  /users/count:
-    get:
-      $ref: ../swagger/paths/users/count.yaml
   /users/update:
     patch:
-      $ref: ../swagger/paths/users/patchUserData.yaml
+      $ref: ../swagger/paths/users/update.yaml
+  /users/avatar:
+    patch:
+      $ref: ../swagger/paths/users/avatar.yaml
   /water/add-water:
     post:
       $ref: ../swagger/paths/water/postAddWater.yaml

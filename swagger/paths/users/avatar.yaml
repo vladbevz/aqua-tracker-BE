@@ -1,0 +1,44 @@
+summary: Update user data
+description: Updates user data with an uploaded image
+operationId: UpdateUserAvatar
+tags:
+  - Users
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          image:
+            type: string
+            format: binary
+            description: The image file to upload
+responses:
+  '200':
+    description: Update successful avatar
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Update successful
+            user:
+              type: object
+              properties:
+                avatarUrl:
+                  type: string
+                  format: uri
+                  example: 'https://images.unian.net/photos/2022_03/thumb_files/1200_0_1648468790-5163.jpeg'
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
