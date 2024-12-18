@@ -40,21 +40,22 @@ paths:
   /users/avatar:
     patch:
       $ref: ../swagger/paths/users/avatar.yaml
-  /water/add-water:
+  /users/waterRate:
+    patch:
+      $ref: ../swagger/paths/users/waterRate.yaml
+  /water:
     post:
-      $ref: ../swagger/paths/water/postAddWater.yaml
-  /water/monthly:
+      $ref: ../swagger/paths/water/addWater.yaml
+    get:
+      $ref: ../swagger/paths/water/getWater.yaml
+  /water/:year/:month:
     get:
       $ref: ../swagger/paths/water/getMonthly.yaml
-  /water/update-water-daily:
+  /water/{id}:
     patch:
-      $ref: ../swagger/paths/water/update-water-daily.yaml
-  /water/delete/{id}:
+      $ref: ../swagger/paths/water/{id}/updateAmount.yaml
     delete:
       $ref: ../swagger/paths/water/{id}/delete.yaml
-  /water/update-volume/{id}:
-    patch:
-      $ref: ../swagger/paths/water/{id}/patchUpdateVolume.yaml
 components:
   securitySchemes:
     bearerAuth:

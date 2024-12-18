@@ -1,0 +1,86 @@
+summary: Get daily water 
+operationId: GetDailyWater
+description: Retrieves the user's water intake for a specific day, including total intake, servings, and percentage of the daily norm.
+tags:
+  - Water
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Daily water intake retrieved successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found records!
+            data:
+              type: object
+              properties:
+                daylyNorm:
+                  type: number
+                  description: The user's daily water intake norm in milliliters.
+                  example: 2000
+                amountWaterPerDay:
+                  type: number
+                  description: Total amount of water consumed in milliliters.
+                  example: 1500
+                servings:
+                  type: integer
+                  description: Total number of water servings recorded for the day.
+                  example: 3
+                percent:
+                  type: integer
+                  description: Percentage of the daily norm consumed.
+                  example: 75
+                todayWaterList:
+                  type: array
+                  description: List of water servings recorded for the day.
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The unique identifier of the water serving record.
+                        example: 64af85cd3f0f8b002c12a1e4
+                      userId:
+                        type: string
+                        description: The ID of the user.
+                        example: 64af812d3f0f8b002c12a0a1
+                      amount:
+                        type: number
+                        description: Amount of water consumed in milliliters.
+                        example: 500
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: The timestamp of the water serving record.
+                        example: '2024-12-18T10:30:00Z'
+  '400':
+    description: Invalid date format
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Invalid date format
+  '404':
+    description: No water records found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: No records found for the specified day
+  '500':
+    $ref: ../../components/responses/500.yaml
+

@@ -1,6 +1,6 @@
-summary: Update the volume of water intake
-operationId: updateWaterVolume
-description: Updates the volume of water intake for a specified entry.
+summary: Update the volume serving of water
+operationId: updateWaterServing
+description: Updates the serving of water for a specified entry.
 tags:
   - Water{id}
 security:
@@ -9,28 +9,28 @@ parameters:
   - name: id
     in: path
     required: true
-    description: The ID of the water intake entry to update.
+    description: The ID serving of water entry to update.
     schema:
       type: string
       example: '507f1f77bcf86cd799439011'
 requestBody:
-  description: Data to update the water intake entry
+  description: Data to update the serving of water entry
   required: true
   content:
     application/json:
       schema:
         type: object
         properties:
-          time:
+          dateTime:
             type: string
             example: '18:40'
-          volume:
+          amount:
             type: number
-            description: Volume of water intake in milliliters
+            description: Serving of water in milliliters
             example: 250
 responses:
   '200':
-    description: Volume of water intake updated successfully
+    description: Serving of water updated successfully
     content:
       application/json:
         schema:
@@ -43,7 +43,7 @@ responses:
             message:
               type: string
               description: Response message
-              example: Successfully updated volume of the water!
+              example: Successfully updated serving of water!
             data:
               type: object
               properties:
@@ -53,7 +53,7 @@ responses:
                 date:
                   type: string
                   example: '2024-07-18T17:13:40.860Z'
-                volume:
+                amount:
                   type: number
                   example: 500
                 userId:
@@ -61,6 +61,8 @@ responses:
                   example: '6693dd1c4693614757d726e0'
   '400':
     $ref: ../../../components/responses/400.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
   '404':
     $ref: ../../../components/responses/404.yaml
   '500':
