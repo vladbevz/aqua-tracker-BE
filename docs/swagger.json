@@ -655,11 +655,11 @@
         }
       }
     },
-    "/water/add-water": {
+    "/water": {
       "post": {
-        "summary": "Add water intake",
-        "operationId": "addWater",
-        "description": "Adds a new water intake record for the user.",
+        "summary": "Add serving of water",
+        "operationId": "AddWaterServing",
+        "description": "Adds a new serving of water record for the user.",
         "tags": [
           "Water"
         ],
@@ -674,13 +674,13 @@
             "application/json": {
               "schema": {
                 "properties": {
-                  "volume": {
+                  "amount": {
                     "type": "number",
-                    "example": 1800
+                    "example": 250
                   },
-                  "time": {
+                  "date": {
                     "type": "string",
-                    "example": "23:30"
+                    "example": "17-12-2024 18:26:00"
                   }
                 }
               }
@@ -689,7 +689,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfully added water intake",
+            "description": "Successfully added serving of water",
             "content": {
               "application/json": {
                 "schema": {
@@ -710,7 +710,7 @@
                           "type": "string",
                           "example": "2024-07-18T21:24:06+03:00"
                         },
-                        "volume": {
+                        "amount": {
                           "type": "number",
                           "example": 650
                         },
@@ -732,17 +732,21 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "500": {
             "$ref": "#/components/responses/500"
           }
         }
-      }
-    },
-    "/water/monthly": {
+      },
       "get": {
-        "summary": "Get monthly water intake",
-        "operationId": "GetMonthlyWater",
-        "description": "Retrieves the user's water intake for a specified month and year.",
+        "summary": "Get daily water",
+        "operationId": "GetDailyWater",
+        "description": "Retrieves the user's water intake for a specific day, including total intake, servings, and percentage of the daily norm.",
         "tags": [
           "Water"
         ],
@@ -751,109 +755,6 @@
             "bearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "name": "dailyNorma",
-            "in": "query",
-            "required": true,
-            "description": "The daily water intake norm in milliliters.",
-            "schema": {
-              "type": "number",
-              "example": 2000
-            }
-          },
-          {
-            "name": "month",
-            "in": "query",
-            "required": false,
-            "description": "The month for which to retrieve the water intake (1-12). Defaults to the current month.",
-            "schema": {
-              "type": "integer",
-              "example": 7
-            }
-          },
-          {
-            "name": "year",
-            "in": "query",
-            "required": false,
-            "description": "The year for which to retrieve the water intake. Defaults to the current year.",
-            "schema": {
-              "type": "integer",
-              "example": 2024
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Monthly water intake retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "dayOfMonth": {
-                      "type": "string",
-                      "example": "18"
-                    },
-                    "percentage": {
-                      "type": "string",
-                      "example": "60"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid month or year format",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid month or year format"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/water/update-water-daily": {
-      "patch": {
-        "summary": "Update water daily",
-        "operationId": "UpdateWaterDaily",
-        "description": "Retrieves the user's water intake for a specified date.",
-        "tags": [
-          "Water"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "curDailyNorm": {
-                    "type": "number",
-                    "example": 1800
-                  }
-                }
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Daily water intake retrieved successfully",
@@ -863,11 +764,67 @@
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": "string"
+                      "type": "integer",
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully set water rate!"
+                      "example": "Successfully found records!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "daylyNorm": {
+                          "type": "number",
+                          "description": "The user's daily water intake norm in milliliters.",
+                          "example": 2000
+                        },
+                        "amountWaterPerDay": {
+                          "type": "number",
+                          "description": "Total amount of water consumed in milliliters.",
+                          "example": 1500
+                        },
+                        "servings": {
+                          "type": "integer",
+                          "description": "Total number of water servings recorded for the day.",
+                          "example": 3
+                        },
+                        "percent": {
+                          "type": "integer",
+                          "description": "Percentage of the daily norm consumed.",
+                          "example": 75
+                        },
+                        "todayWaterList": {
+                          "type": "array",
+                          "description": "List of water servings recorded for the day.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "The unique identifier of the water serving record.",
+                                "example": "64af85cd3f0f8b002c12a1e4"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "description": "The ID of the user.",
+                                "example": "64af812d3f0f8b002c12a0a1"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "description": "Amount of water consumed in milliliters.",
+                                "example": 500
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "The timestamp of the water serving record.",
+                                "example": "2024-12-18T10:30:00Z"
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -875,7 +832,7 @@
             }
           },
           "400": {
-            "description": "Invalid dailyNorma format",
+            "description": "Invalid date format",
             "content": {
               "application/json": {
                 "schema": {
@@ -883,7 +840,23 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Invalid dailyNorma format"
+                      "example": "Invalid date format"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No water records found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No records found for the specified day"
                     }
                   }
                 }
@@ -896,49 +869,14 @@
         }
       }
     },
-    "/water/delete/{id}": {
-      "delete": {
-        "summary": "Delete water intake",
-        "operationId": "deleteWater",
-        "description": "Deletes a water intake record for the user.",
-        "tags": [
-          "Water{id}"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "The ID of the water intake record to delete.",
-            "schema": {
-              "type": "string",
-              "example": "507f1f77bcf86cd799439011"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Successfully deleted water intake"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
+    "/water/:year/:month": {
+      "get": null
     },
-    "/water/update-volume/{id}": {
+    "/water/{id}": {
       "patch": {
-        "summary": "Update the volume of water intake",
-        "operationId": "updateWaterVolume",
-        "description": "Updates the volume of water intake for a specified entry.",
+        "summary": "Update the volume serving of water",
+        "operationId": "updateWaterServing",
+        "description": "Updates the serving of water for a specified entry.",
         "tags": [
           "Water{id}"
         ],
@@ -952,7 +890,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "The ID of the water intake entry to update.",
+            "description": "The ID serving of water entry to update.",
             "schema": {
               "type": "string",
               "example": "507f1f77bcf86cd799439011"
@@ -960,20 +898,20 @@
           }
         ],
         "requestBody": {
-          "description": "Data to update the water intake entry",
+          "description": "Data to update the serving of water entry",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "time": {
+                  "dateTime": {
                     "type": "string",
                     "example": "18:40"
                   },
-                  "volume": {
+                  "amount": {
                     "type": "number",
-                    "description": "Volume of water intake in milliliters",
+                    "description": "Serving of water in milliliters",
                     "example": 250
                   }
                 }
@@ -983,7 +921,7 @@
         },
         "responses": {
           "200": {
-            "description": "Volume of water intake updated successfully",
+            "description": "Serving of water updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -997,7 +935,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Successfully updated volume of the water!"
+                      "example": "Successfully updated serving of water!"
                     },
                     "data": {
                       "type": "object",
@@ -1010,7 +948,7 @@
                           "type": "string",
                           "example": "2024-07-18T17:13:40.860Z"
                         },
-                        "volume": {
+                        "amount": {
                           "type": "number",
                           "example": 500
                         },
@@ -1027,6 +965,51 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete serving of water",
+        "operationId": "deleteWater",
+        "description": "Deletes serving of water entry for user",
+        "tags": [
+          "Water{id}"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID serving of water to delete.",
+            "schema": {
+              "type": "string",
+              "example": "507f1f77bcf86cd799439011"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted serving of water"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -1125,7 +1108,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Contact not found"
+                  "example": "User not found"
                 },
                 "data": {
                   "type": "object",
@@ -1135,7 +1118,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Contact not found"
+                      "example": "User not found"
                     }
                   }
                 }
