@@ -429,48 +429,6 @@
         }
       }
     },
-    "/users/count": {
-      "get": {
-        "summary": "Get total number of users",
-        "operationId": "getUsersCount",
-        "description": "Returns the total number of users in the database.",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Total number of users fetched successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "usersQuantity"
-                  ],
-                  "properties": {
-                    "usersQuantity": {
-                      "type": "number",
-                      "example": 56
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/users/update": {
       "patch": {
         "summary": "Update user data",
@@ -542,10 +500,89 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
           "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/avatar": {
+      "patch": {
+        "summary": "Update user data",
+        "description": "Updates user data with an uploaded image",
+        "operationId": "UpdateUserAvatar",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The image file to upload (JPEG or PNG only)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Update successful"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "avatarUrl": {
+                          "type": "string",
+                          "format": "uri",
+                          "example": "https://images.unian.net/photos/2022_03/thumb_files/1200_0_1648468790-5163.jpeg"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — Invalid input",
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "description": "Unauthorized — User authentication failed",
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "Not Found — Resource not found",
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "description": "Internal Server Error",
             "$ref": "#/components/responses/500"
           }
         }
@@ -1004,7 +1041,7 @@
         }
       },
       "404": {
-        "description": "Unauthorized error",
+        "description": "Not found error",
         "content": {
           "application/json": {
             "schema": {

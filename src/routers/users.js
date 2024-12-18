@@ -22,4 +22,10 @@ userRouter.patch(
   ctrlWrapper(userController.updateSettings),
 );
 
+// update dayly norm
+userRouter.patch('/waterRate',authenticate,validateBody(userInfoUpdatedSchema),ctrlWrapper(userController.updateWaterRateController));
+
+// update userAvatar
+userRouter.patch('/avatar',authenticate,validateBody(userInfoUpdatedSchema),ctrlWrapper(userController.updateUserAvatarController));
+
 export default userRouter;

@@ -1,4 +1,4 @@
-description: Unauthorized error
+description: Not found error
 content:
   application/json:
     schema:
