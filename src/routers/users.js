@@ -17,6 +17,7 @@ userRouter.get(
 userRouter.patch(
   '/update',
   authenticate,
+  upload.single('avatarUrl'),
   validateBody(userInfoUpdatedSchema),
   ctrlWrapper(userController.updateSettings),
 );

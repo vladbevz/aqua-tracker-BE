@@ -37,10 +37,6 @@ const userSchema = new Schema(
       type: Number,
       default: 1800,
     },
-    accessToken: {
-      type: String,
-      default: '',
-    },
   },
   { versionKey: false, timestamps: true },
 );
