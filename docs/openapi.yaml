@@ -48,7 +48,7 @@ paths:
       $ref: ../swagger/paths/water/addWater.yaml
     get:
       $ref: ../swagger/paths/water/getWater.yaml
-  /water/:year/:month:
+  /water/{year}/{month}:
     get:
       $ref: ../swagger/paths/water/getMonthly.yaml
   /water/{id}:
