@@ -102,8 +102,44 @@ export const updateSettings = async (req, res) => {
 };
 
 export const updateWaterRateController = async (req, res, next) => {
-  // const { daylyNorm } = req.body;
+  try {
+    const { daylyNorm } = req.body;
+
+    if (!daylyNorm || typeof daylyNorm !== 'number' || daylyNorm <= 0) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Invalid daily water norm. It must be a positive number.',
+      });
+    }
+
+    const updatedUserData = { daylyNorm };
+    const { _id } = req.user;
+
+    const updatedUser = await UserCollection.findByIdAndUpdate(
+      _id,
+      updatedUserData,
+      { new: true },
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        status: 404,
+        message: 'User not found',
+      });
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully updated daily water norm',
+      data: {
+        daylyNorm: updatedUser.daylyNorm,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
+
 
 export const updateUserAvatarController = async (req, res, next) => {
   try {
