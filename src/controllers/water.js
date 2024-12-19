@@ -130,28 +130,43 @@ export const getMonthWaterListController = async (req, res) => {
 };
 
 export const createWaterController = async (req, res) => {
-  const userId = req.user._id;
+  try {
+    const userId = req.user._id;
 
-  const dateStr = req.body.date;
-  let date;
+    const dateStr = req.body.date;
+    let date;
 
-  if (dateStr) {
-    date = moment.tz(dateStr, 'Europe/Kiev').toDate();
-  } else {
-    date = new Date();
-  }
+    if (dateStr) {
+      // Интерпретируем дату как локальное время для Europe/Kiev и конвертируем в UTC
+      date = moment.tz(dateStr, 'Europe/Kiev').utc().toDate();
+    } else {
+      // Текущая дата и время в Europe/Kiev, конвертированные в UTC
+      date = moment.tz(new Date(), 'Europe/Kiev').utc().toDate();
+    }
 
-  if (!date || isNaN(date.getTime())) {
-    return res.status(400).json({
-      status: 400,
-      message: 'Invalid date format provided.',
+    if (!date || isNaN(date.getTime())) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Invalid date format provided.',
+      });
+    }
+
+    const payload = { ...req.body, date, userId };
+
+    // Создаем запись в базе данных
+    const water = await createWater(payload);
+
+    return res.status(201).json({
+      status: 201,
+      data: water,
+    });
+  } catch (error) {
+    console.error('Error creating water entry:', error);
+
+    return res.status(500).json({
+      status: 500,
+      message: 'Internal Server Error',
+      error: error.message,
     });
   }
-  let payload = { ...req.body, date, userId };
-  const water = await createWater(payload);
-
-  res.status(201).json({
-    status: 201,
-    data: water,
-  });
 };
