@@ -1,63 +1,65 @@
-# summary: Get monthly water intake
-# operationId: GetMonthlyWater
-# description: Retrieves the user's water intake for a specified month and year.
-# tags:
-#   - Water
-# security:
-#   - bearerAuth: []
-# parameters:
-#   - name: year
-#     in: path
-#     required: true
-#     description: The year for which to retrieve the water intake.
-#     schema:
-#       type: integer
-#       example: 2024
-#   - name: month
-#     in: path
-#     required: true
-#     description: The month for which to retrieve the water intake (1-12).
-#     schema:
-#       type: integer
-#       example: 7
-# responses:
-#   '200':
-#     description: Monthly water intake retrieved successfully
-#     content:
-#       application/json:
-#         schema:
-#           type: object
-#           properties:
-#             amountWaterPerMonth:
-#               type: integer
-#               example: 4500
-#             monthWaterList:
-#               type: array
-#               items:
-#                 type: object
-#                 properties:
-#                   dayOfMonth:
-#                     type: string
-#                     example: '18'
-#                   amountWaterPerDay:
-#                     type: integer
-#                     example: 1500
-#                   servings:
-#                     type: integer
-#                     example: 3
-#                   percent:
-#                     type: integer
-#                     example: 75
-#   '400':
-#     description: Invalid month or year format
-#     content:
-#       application/json:
-#         schema:
-#           type: object
-#           properties:
-#             message:
-#               type: string
-#               example: Invalid month or year format
-#   '500':
-#     $ref: ../../components/responses/500.yaml
-  
+summary: Get monthly water intake
+operationId: GetMonthlyWater
+description: Retrieves the user's water intake for a specified month and year.
+tags:
+  - Water
+security:
+  - bearerAuth: []
+parameters:
+  - name: year
+    in: path
+    required: true
+    description: The year for which to retrieve the water intake.
+    schema:
+      type: integer
+      example: 2024
+  - name: month
+    in: path
+    required: true
+    description: The month for which to retrieve the water intake (1-12).
+    schema:
+      type: integer
+      example: 7
+responses:
+  '200':
+    description: Monthly water intake retrieved successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Monthly water intake retrieved successfully'
+            amountWaterPerMonth:
+              type: integer
+              example: 4500
+            monthWaterList:
+              type: array
+              items:
+                type: object
+                properties:
+                  dayOfMonth:
+                    type: string
+                    example: '18'
+                  amountWaterPerDay:
+                    type: integer
+                    example: 1500
+                  servings:
+                    type: integer
+                    example: 3
+                  percent:
+                    type: integer
+                    example: 75
+  '400':
+    description: Invalid month or year format
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Invalid month or year format
+  '500':
+    $ref: ../../components/responses/500.yaml
