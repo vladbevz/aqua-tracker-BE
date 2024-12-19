@@ -1,5 +1,7 @@
 import createHttpError from 'http-errors';
+import moment from 'moment-timezone';
 import { getMonthIndex, getMonthName } from '../utils/date.js';
+
 import {
   getTodayWaterList,
   getMonthWaterList,
@@ -58,23 +60,23 @@ export const getDayWaterListController = async (req, res) => {
 };
 
 //POST new water
-export const createWaterController = async (req, res) => {
-  const userId = req.user._id;
+// export const createWaterController = async (req, res) => {
+//   const userId = req.user._id;
 
-  const dateStr = req.body.date;
-  let date = new Date();
-  if (dateStr) {
-    date = new Date(dateStr);
-  }
-  let payload = { ...req.body, date, userId };
-  const water = await createWater(payload);
+//   const dateStr = req.body.date;
+//   let date = new Date();
+//   if (dateStr) {
+//     date = new Date(dateStr);
+//   }
+//   let payload = { ...req.body, date, userId };
+//   const water = await createWater(payload);
 
-  res.status(201).json({
-    status: 201,
-    message: `Successfully created a water!`,
-    data: water,
-  });
-};
+//   res.status(201).json({
+//     status: 201,
+//     message: `Successfully created a water!`,
+//     data: water,
+//   });
+// };
 
 //DELETE water
 export const deleteWaterController = async (req, res, next) => {
@@ -124,5 +126,32 @@ export const getMonthWaterListController = async (req, res) => {
     status: 200,
     message: 'Successfully found records!',
     data: { data: Object.assign(monthWaterList, additionalInfo) },
+  });
+};
+
+export const createWaterController = async (req, res) => {
+  const userId = req.user._id;
+
+  const dateStr = req.body.date;
+  let date;
+
+  if (dateStr) {
+    date = moment.tz(dateStr, 'Europe/Kiev').toDate();
+  } else {
+    date = new Date();
+  }
+
+  if (!date || isNaN(date.getTime())) {
+    return res.status(400).json({
+      status: 400,
+      message: 'Invalid date format provided.',
+    });
+  }
+  let payload = { ...req.body, date, userId };
+  const water = await createWater(payload);
+
+  res.status(201).json({
+    status: 201,
+    data: water,
   });
 };
