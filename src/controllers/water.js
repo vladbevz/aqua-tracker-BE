@@ -59,24 +59,24 @@ export const getDayWaterListController = async (req, res) => {
   });
 };
 
-//POST new water
-// export const createWaterController = async (req, res) => {
-//   const userId = req.user._id;
+// POSTnew water
+export const createWaterController = async (req, res) => {
+  const userId = req.user._id;
 
-//   const dateStr = req.body.date;
-//   let date = new Date();
-//   if (dateStr) {
-//     date = new Date(dateStr);
-//   }
-//   let payload = { ...req.body, date, userId };
-//   const water = await createWater(payload);
+  const dateStr = req.body.date;
+  let date = new Date();
+  if (dateStr) {
+    date = new Date(dateStr);
+  }
+  let payload = { ...req.body, date, userId };
+  const water = await createWater(payload);
 
-//   res.status(201).json({
-//     status: 201,
-//     message: `Successfully created a water!`,
-//     data: water,
-//   });
-// };
+  res.status(201).json({
+    status: 201,
+    message: `Successfully created a water!`,
+    data: water,
+  });
+};
 
 //DELETE water
 export const deleteWaterController = async (req, res, next) => {
@@ -127,46 +127,4 @@ export const getMonthWaterListController = async (req, res) => {
     message: 'Successfully found records!',
     data: { data: Object.assign(monthWaterList, additionalInfo) },
   });
-};
-
-export const createWaterController = async (req, res) => {
-  try {
-    const userId = req.user._id;
-
-    const dateStr = req.body.date;
-    let date;
-
-    if (dateStr) {
-      // Интерпретируем дату как локальное время для Europe/Kiev и конвертируем в UTC
-      date = moment.tz(dateStr, 'Europe/Kiev').utc().toDate();
-    } else {
-      // Текущая дата и время в Europe/Kiev, конвертированные в UTC
-      date = moment.tz(new Date(), 'Europe/Kiev').utc().toDate();
-    }
-
-    if (!date || isNaN(date.getTime())) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Invalid date format provided.',
-      });
-    }
-
-    const payload = { ...req.body, date, userId };
-
-    // Создаем запись в базе данных
-    const water = await createWater(payload);
-
-    return res.status(201).json({
-      status: 201,
-      data: water,
-    });
-  } catch (error) {
-    console.error('Error creating water entry:', error);
-
-    return res.status(500).json({
-      status: 500,
-      message: 'Internal Server Error',
-      error: error.message,
-    });
-  }
 };
