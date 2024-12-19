@@ -82,35 +82,24 @@ export const createWaterController = async (req, res) => {
   const { time, amount } = req.body;
   const userId = req.user._id;
 
-  try {
-    if (!time || !amount) {
-      return res.status(400).json({ message: 'Time and amount are required!' });
-    }
-
-    // Получаем текущую дату
-    const currentDate = new Date();
-
-    // Разделяем время и устанавливаем его в текущую дату
-    const [hours, minutes] = time.split(':');
-    currentDate.setUTCHours(parseInt(hours), parseInt(minutes), 0, 0);
-
-    // Формируем payload
-    const payload = { userId, date: currentDate, amount };
-
-    // Сохраняем данные
-    const water = await createWater(payload);
-
-    res.status(201).json({
-      status: 201,
-      message: 'Successfully created water entry!',
-      data: water,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Failed to create water entry.',
-      error: error.message,
-    });
+  if (!time || !amount) {
+    return res.status(400).json({ message: 'Time and amount are required!' });
   }
+
+  const currentDate = new Date();
+
+  const [hours, minutes] = time.split(':');
+  currentDate.setUTCHours(parseInt(hours), parseInt(minutes), 0, 0);
+
+  const payload = { userId, date: currentDate, amount };
+
+  const water = await createWater(payload);
+
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully created water entry!',
+    data: water,
+  });
 };
 
 //DELETE water
