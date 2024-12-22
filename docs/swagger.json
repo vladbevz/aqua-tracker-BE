@@ -393,7 +393,6 @@
                     "gender": {
                       "type": "string",
                       "enum": [
-                        "undefined",
                         "woman",
                         "man"
                       ],
