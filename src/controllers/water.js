@@ -60,23 +60,6 @@ export const getDayWaterListController = async (req, res) => {
 };
 
 // POSTnew water
-// export const createWaterController = async (req, res) => {
-//   const userId = req.user._id;
-
-//   const dateStr = req.body.date;
-//   let date = new Date();
-//   if (dateStr) {
-//     date = new Date(dateStr);
-//   }
-//   let payload = { ...req.body, date, userId };
-//   const water = await createWater(payload);
-
-//   res.status(201).json({
-//     status: 201,
-//     message: `Successfully created a water!`,
-//     data: water,
-//   });
-// };
 
 export const createWaterController = async (req, res) => {
   const { time, amount } = req.body;

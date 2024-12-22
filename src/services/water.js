@@ -48,9 +48,6 @@ export const getMonthWaterList = async ({
     watersQuery.where('userId').equals(filter.userId);
   }
 
-  // const watersCount = await WaterCollection.find()
-  //   .merge(watersQuery)
-  //   .countDocuments();
 
   const waters = await watersQuery.sort({ [sortBy]: sortOrder }).exec();
   const user = await getUserInfo(filter.userId);
