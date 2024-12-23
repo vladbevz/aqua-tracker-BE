@@ -1,4 +1,4 @@
-summary: Log in to get access token
+summary: Sign in User
 operationId: logIn
 tags:
   - Auth

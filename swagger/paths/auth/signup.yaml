@@ -37,33 +37,9 @@ responses:
                 gender:
                   type: string
                   example: 'woman'
-                weight:
+                daylyNorm:
                   type: number
-                  example: 0
-                activeTimeSports:
-                  type: number
-                  example: 0
-                waterDrink:
-                  type: number
-                  example: 1.8
-                token:
-                  type: string
-                  example: ''
-                tempToken:
-                  type: string
-                  example: ''
-                avatarUrl:
-                  type: string
-                  example: ''
-                googleId:
-                  type: string
-                  example: ''
-                verify:
-                  type: boolean
-                  example: false
-                verificationToken:
-                  type: string
-                  example: ''
+                  example: 1800
                 _id:
                   type: string
                   example: '66995048b456e6b3c39d3599'
@@ -79,5 +55,5 @@ responses:
 
   '400':
     $ref: ../../components/responses/400.yaml
-  '401':
-    $ref: ../../components/responses/401.yaml
+  '409':
+    $ref: ../../components/responses/409.yaml
