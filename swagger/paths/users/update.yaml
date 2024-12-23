@@ -6,10 +6,29 @@ tags:
 security:
   - bearerAuth: []
 requestBody:
+  required: true
   content:
     application/json:
       schema:
         type: object
+        properties:
+          name:
+            type: string
+            description: User's name
+            example: 'John'
+          email:
+            type: string
+            format: email
+            description: User's email address
+            example: 'ssadasde@gmail.com'
+          gender:
+            type: string
+            description: User's gender
+            example: 'woman'
+          daylyNorm:
+            type: number
+            description: Daily water intake in liters
+            example: 1800
 responses:
   '200':
     description: Update successful
@@ -30,18 +49,12 @@ responses:
                 email:
                   type: string
                   example: 'ssadasde@gmail.com'
-                gender":
+                gender:
                   type: string
                   example: 'woman'
-                weight:
+                daylyNorm:
                   type: number
-                  example: 0
-                activeTimeSports":
-                  type: number
-                  example: 0
-                waterDrink:
-                  type: number
-                  example: 1.8
+                  example: 1800
   '400':
     $ref: ../../components/responses/400.yaml
   '401':
