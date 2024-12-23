@@ -17,6 +17,7 @@ export const userInfoUpdatedSchema = Joi.object({
     'any.only': "Gender must be either 'male' or 'female'.",
   }),
   daylyNorm: Joi.number().min(500).max(15000),
+  avatarUrl: Joi.string(),
 });
 
 export const userRegisterSchema = Joi.object({

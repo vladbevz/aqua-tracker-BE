@@ -12,7 +12,7 @@ requestBody:
       schema:
         type: object
         properties:
-          waterRate:
+          daylyNorm:
             type: number
             description: The water rate to update
             example: 5000
