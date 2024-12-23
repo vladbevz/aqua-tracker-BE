@@ -25,14 +25,8 @@ responses:
               enum:
                 - woman
                 - man
-              example: 'undefined'
-            weight:
-              type: number
-              example: 70
-            activeTimeSports:
-              type: number
-              example: 5
-            waterDrink:
+              example: 'woman'
+            daylyNorm:
               type: number
               example: 1.8
             avatarURL:
