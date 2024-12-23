@@ -91,41 +91,9 @@
                           "type": "string",
                           "example": "woman"
                         },
-                        "weight": {
+                        "daylyNorm": {
                           "type": "number",
-                          "example": 0
-                        },
-                        "activeTimeSports": {
-                          "type": "number",
-                          "example": 0
-                        },
-                        "waterDrink": {
-                          "type": "number",
-                          "example": 1.8
-                        },
-                        "token": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "tempToken": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "avatarUrl": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "googleId": {
-                          "type": "string",
-                          "example": ""
-                        },
-                        "verify": {
-                          "type": "boolean",
-                          "example": false
-                        },
-                        "verificationToken": {
-                          "type": "string",
-                          "example": ""
+                          "example": 1800
                         },
                         "_id": {
                           "type": "string",
@@ -153,15 +121,15 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "409": {
+            "$ref": "#/components/responses/409"
           }
         }
       }
     },
     "/auth/signin": {
       "post": {
-        "summary": "Log in to get access token",
+        "summary": "Sign in User",
         "operationId": "logIn",
         "tags": [
           "Auth"
@@ -1225,6 +1193,43 @@
                     "message": {
                       "type": "string",
                       "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "User with this email already exists",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "ConflictError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email in use!"
                     }
                   }
                 }
