@@ -1,5 +1,5 @@
-summary: Update user data
-description: Updates user data with an uploaded image
+summary: Update user avatar
+description: Updates user data with a provided avatar URL
 operationId: UpdateUserAvatar
 tags:
   - Users
@@ -8,14 +8,14 @@ security:
 requestBody:
   required: true
   content:
-    multipart/form-data:
+    application/json:
       schema:
         type: object
         properties:
-          image:
+          avatarUrl:
             type: string
-            format: binary
-            description: The image file to upload
+            format: uri
+            description: The URL of the avatar to set
 responses:
   '200':
     description: Update successful avatar

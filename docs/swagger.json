@@ -513,8 +513,8 @@
     },
     "/users/avatar": {
       "patch": {
-        "summary": "Update user data",
-        "description": "Updates user data with an uploaded image",
+        "summary": "Update user avatar",
+        "description": "Updates user data with a provided avatar URL",
         "operationId": "UpdateUserAvatar",
         "tags": [
           "Users"
@@ -527,14 +527,14 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "image": {
+                  "avatarUrl": {
                     "type": "string",
-                    "format": "binary",
-                    "description": "The image file to upload"
+                    "format": "uri",
+                    "description": "The URL of the avatar to set"
                   }
                 }
               }
@@ -628,7 +628,7 @@
                     "user": {
                       "type": "object",
                       "properties": {
-                        "waterRate": {
+                        "daylyNorm": {
                           "type": "number",
                           "example": 5000
                         }
@@ -677,7 +677,7 @@
                     "type": "number",
                     "example": 250
                   },
-                  "date": {
+                  "time": {
                     "type": "string",
                     "example": "17-12-2024 18:26:00"
                   }

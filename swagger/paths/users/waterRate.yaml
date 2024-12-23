@@ -30,7 +30,7 @@ responses:
             user:
               type: object
               properties:
-                waterRate:
+                daylyNorm:
                   type: number
                   example: 5000
   '400':
@@ -41,4 +41,3 @@ responses:
     $ref: ../../components/responses/404.yaml
   '500':
     $ref: ../../components/responses/500.yaml
-
