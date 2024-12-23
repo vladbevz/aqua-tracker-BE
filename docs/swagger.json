@@ -396,17 +396,9 @@
                         "woman",
                         "man"
                       ],
-                      "example": "undefined"
+                      "example": "woman"
                     },
-                    "weight": {
-                      "type": "number",
-                      "example": 70
-                    },
-                    "activeTimeSports": {
-                      "type": "number",
-                      "example": 5
-                    },
-                    "waterDrink": {
+                    "daylyNorm": {
                       "type": "number",
                       "example": 1.8
                     },
