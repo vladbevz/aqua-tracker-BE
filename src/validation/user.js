@@ -5,7 +5,7 @@ export const refreshSchema = Joi.object({
 });
 
 export const userInfoUpdatedSchema = Joi.object({
-  name: Joi.string().max(32),
+  name: Joi.string().max(32).allow(''),
   email: Joi.string().pattern(emailRegexp).messages({
     'string.base': 'Email must be a string.',
     'string.empty': 'Email must not be empty.',
