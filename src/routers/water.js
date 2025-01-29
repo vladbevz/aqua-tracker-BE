@@ -12,32 +12,32 @@ import {
 import { ctrlWrapper } from './../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
 
-const router = Router();
+const waterRouter = Router();
 
 // use authenticate?
-router.use(authenticate);
+waterRouter.use(authenticate);
 
 // response controllers
 
 //GET waters
-router.get('/', ctrlWrapper(getTodayWaterListController));
+waterRouter.get('/', ctrlWrapper(getTodayWaterListController));
 
-router.get('/:year/:month', ctrlWrapper(getMonthWaterListController));
+waterRouter.get('/:year/:month', ctrlWrapper(getMonthWaterListController));
 //
-router.get('/:year/:month/:day', ctrlWrapper(getDayWaterListController));
+waterRouter.get('/:year/:month/:day', ctrlWrapper(getDayWaterListController));
 
 //POST new Water record
-router.post('/', ctrlWrapper(createWaterController));
+waterRouter.post('/', ctrlWrapper(createWaterController));
 
 //DELETE
-router.delete('/:waterId', isValidId, ctrlWrapper(deleteWaterController));
+waterRouter.delete('/:waterId', isValidId, ctrlWrapper(deleteWaterController));
 
 //PATCH
-router.patch(
+waterRouter.patch(
   '/:waterId',
   isValidId,
   //validateBody(updateWatrerSchema),
   ctrlWrapper(patchWaterController),
 );
 
-export default router; 
+export default waterRouter; 
